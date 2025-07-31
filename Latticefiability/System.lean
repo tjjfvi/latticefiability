@@ -6,6 +6,12 @@ structure System where
   join : El -> El -> El -> Prop
   meet : El -> El -> El -> Prop
 
-def System.eq (S : System) (a b : S.El) : Prop := And (S.le a b) (S.le b a)
+def System.eq (S : System) (a b : S.El) : Prop := S.le a b ∧ S.le b a
 
-def System.dual (S : System) : System := System.mk S.El (fun a b => S.le b a) (fun a b => S.lt b a) S.meet S.join
+def System.dual (S : System) : System := {
+  El := S.El
+  le := fun a b => S.le b a
+  lt := fun a b => S.lt b a
+  join := S.meet
+  meet := S.join
+}

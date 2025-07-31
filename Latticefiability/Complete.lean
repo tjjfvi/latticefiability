@@ -6,9 +6,9 @@ structure Complete (S : System) : Prop where
   lt_imp_le : {a b : S.El} -> S.lt a b -> S.le a b
   le_lt : {a b c : S.El} -> S.le a b -> S.lt b c -> S.lt a c
   lt_le : {a b c : S.El} -> S.lt a b -> S.le b c -> S.lt a c
-  join_upper : {j x y : S.El} -> S.join j x y -> And (S.le x j) (S.le y j)
+  join_upper : {j x y : S.El} -> S.join j x y -> S.le x j ∧ S.le y j
   join_least : {j x y b : S.El} -> S.join j x y -> S.le x b -> S.le y b -> S.le j b
-  meet_lower : {m x y : S.El} -> S.meet m x y -> And (S.le m x) (S.le m y)
+  meet_lower : {m x y : S.El} -> S.meet m x y -> S.le m x ∧ S.le m y
   meet_great : {m x y b : S.El} -> S.meet m x y -> S.le b x -> S.le b y -> S.le b m
   lt_irrefl : {a : S.El} -> Not (S.lt a a)
 

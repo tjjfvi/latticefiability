@@ -8,7 +8,7 @@ structure LatEl (S : System) where
   complete : {a b : S.El} -> S.le a b -> has b -> has a
   join : {j x y : S.El} -> S.join j x y -> has x -> has y -> has j
 
-def lat_el_eq {S : System} {a b : LatEl S} (h : (e : S.El) -> a.has e <-> b.has e) : a = b := by
+def lat_el_eq {S : System} {a b : LatEl S} (h : (e : S.El) -> a.has e ↔ b.has e) : a = b := by
   have : a.has = b.has := by funext; rw [eq_iff_iff]; apply_assumption
   cases a; cases b; simp_all
 
@@ -32,11 +32,10 @@ def complete_to_lattice_for {S : System} (C : Complete S) : LatticeFor S := {
         . apply Join.inr; apply b.complete <;> assumption
         . rename_i ha hb hj _; apply Join.join ha hb hj; apply C.le_le <;> assumption
       join := by intro _ _ _ hj jx jy; apply Join.join jx jy hj C.le_refl
-
     }
 
     meet := fun a b => {
-      has := fun e => And (a.has e) (b.has e)
+      has := fun e => a.has e ∧ b.has e
       complete := by (repeat intro h); cases h; apply And.intro <;> apply LatEl.complete <;> assumption
       join := by intro _ _ _ _ x y; cases x; cases y; apply And.intro <;> apply LatEl.join <;> assumption
     }
